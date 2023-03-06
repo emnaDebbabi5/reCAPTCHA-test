@@ -1,3 +1,20 @@
+<?php
+require('recaptcha/autoload.php');
+if(isset($_POST['submitpost'])){
+    if(isset($_POST['g-recaptcha-response'])){
+        $recaptcha = new \ReCaptcha\ReCaptcha('6LcquNckAAAAAOeoV_yJUC3vSK_hZZ_aAs_raAAB');
+        $resp = $recaptcha->verify($_POST['g-recaptcha-response']);
+        if ($resp->isSuccess()) {
+            var_dump('Captcha Valide');
+        } else {
+            $errors = $resp->getErrorCodes();
+            var_dump('Captcha Invalide');
+            var_dump('$errors');
+        }
+        }else{var_dump('Captcha non rempli');}
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +63,7 @@
         <form action="/login" method="POST">
             <div class="g-recaptcha" data-sitekey="6LcquNckAAAAAB1WMl8G_pYGrb7HoQL9dQvZM4_U" >Submit</div>
             <br/>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Valider" name="submitpost">
         </form>
     </div>
 </div>
